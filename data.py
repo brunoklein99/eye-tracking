@@ -27,8 +27,6 @@ def _eyes_to_arrays(eyes):
     x = np.array(x, dtype=np.float32)
     x = np.expand_dims(x, axis=-1)
     x /= 255
-    x -= np.mean(x)
-    x /= np.std(x)
     y = np.array(y, dtype=np.float32)
 
     # p = np.random.permutation(len(x))
@@ -49,6 +47,16 @@ def get_data():
     eyes_train, eyes_valid = train_test_split(eyes, test_size=0.3)
 
     train_x, train_y = _eyes_to_arrays(eyes_train)
+
+    train_mean = np.mean(train_x)
+    train_std = np.std(train_x)
+
+    train_x -= train_mean
+    train_x /= train_std
+
     valid_x, valid_y = _eyes_to_arrays(eyes_valid)
+
+    valid_x -= train_mean
+    valid_x /= train_std
 
     return train_x, train_y, valid_x, valid_y
