@@ -28,6 +28,8 @@ if __name__ == '__main__':
                      epochs=settings.EPOCHS,
                      verbose=1)
 
+    model.save_weights('weights/weights.hdf5', overwrite=True)
+
     loss = hist.history['loss']
     val_loss = hist.history['val_loss']
 

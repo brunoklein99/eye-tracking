@@ -10,7 +10,7 @@ from preprocess import get_eyes
 def _eyes_to_arrays(eyes):
     x = []
     y = []
-    for i, ((face, eye1, eye2), x_pos, y_pos) in enumerate(eyes):
+    for ((face, eye1, eye2), x_pos, y_pos) in eyes:
         x.append(eye1)
         x.append(eye2)
         y.append((x_pos, y_pos))
@@ -38,6 +38,8 @@ def get_data():
 
     train_mean = np.mean(train_x)
     train_std = np.std(train_x)
+    print('mean: ', train_mean)
+    print('std: ', train_std)
 
     train_x -= train_mean
     train_x /= train_std
