@@ -1,11 +1,18 @@
 import settings
 import matplotlib.pyplot as plt
+import numpy as np
+import tensorflow as tf
+from random import seed
 from keras.optimizers import SGD
 
 from data import get_data
 from model import get_model
 
 if __name__ == '__main__':
+    np.random.seed(0)
+    tf.set_random_seed(0)
+    seed(0)
+
     model = get_model()
     model.summary()
 
