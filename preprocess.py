@@ -1,4 +1,5 @@
 import cv2
+import settings
 from tqdm import tqdm
 
 
@@ -30,4 +31,12 @@ def get_eyes(image_filenames):
 
         assert len(eyes) >= 2
 
-        yield img_face, eyes[0], eyes[1]
+        x1, y1, w1, h1 = eyes[0]
+        eye1 = img_face[y1:y1 + h1, x1:x1 + w1]
+        eye1 = cv2.resize(eye1, (settings.IMAGE_SIZE, settings.IMAGE_SIZE))
+
+        x1, y1, w1, h1 = eyes[1]
+        eye2 = img_face[y1:y1 + h1, x1:x1 + w1]
+        eye2 = cv2.resize(eye2, (settings.IMAGE_SIZE, settings.IMAGE_SIZE))
+
+        yield img_face, eye1, eye2

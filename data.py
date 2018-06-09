@@ -1,26 +1,18 @@
 from random import shuffle
 
-import pandas as pd
-import cv2
 import numpy as np
+import pandas as pd
 from sklearn.model_selection import train_test_split
 
-import settings
 from preprocess import get_eyes
 
 
 def _eyes_to_arrays(eyes):
     x = []
     y = []
-    for i, ((face, (x1, y1, w1, h1), (x2, y2, w2, h2)), x_pos, y_pos) in enumerate(eyes):
-        img = face[y1:y1 + h1, x1:x1 + w1]
-        img = cv2.resize(img, (settings.IMAGE_SIZE, settings.IMAGE_SIZE))
-        x.append(img)
-
-        img = face[y2:y2 + h2, x2:x2 + w2]
-        img = cv2.resize(img, (settings.IMAGE_SIZE, settings.IMAGE_SIZE))
-        x.append(img)
-
+    for i, ((face, eye1, eye2), x_pos, y_pos) in enumerate(eyes):
+        x.append(eye1)
+        x.append(eye2)
         y.append((x_pos, y_pos))
         y.append((x_pos, y_pos))
 
@@ -28,10 +20,6 @@ def _eyes_to_arrays(eyes):
     x = np.expand_dims(x, axis=-1)
     x /= 255
     y = np.array(y, dtype=np.float32)
-
-    # p = np.random.permutation(len(x))
-    # x = x[p]
-    # y = y[p]
 
     return x, y
 
