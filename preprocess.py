@@ -1,5 +1,7 @@
 import cv2
+import numpy as np
 import settings
+
 from tqdm import tqdm
 
 
@@ -35,12 +37,16 @@ def get_eyes_img(img, face_cascade, eye_cascade):
     x1, y1, w1, h1 = eyes[0]
     eye1 = img_face[y1:y1 + h1, x1:x1 + w1]
     eye1 = cv2.resize(eye1, (settings.IMAGE_SIZE, settings.IMAGE_SIZE))
+    eye1 = np.expand_dims(eye1, axis=-1)
 
     x1, y1, w1, h1 = eyes[1]
     eye2 = img_face[y1:y1 + h1, x1:x1 + w1]
     eye2 = cv2.resize(eye2, (settings.IMAGE_SIZE, settings.IMAGE_SIZE))
+    eye2 = np.expand_dims(eye2, axis=-1)
 
-    return img_face, eye1, eye2
+    eyes = np.concatenate((eye1, eye2), axis=-1)
+
+    return img_face, eyes
 
 
 def get_eyes(image_filenames):

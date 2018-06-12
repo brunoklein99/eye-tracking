@@ -10,14 +10,11 @@ from preprocess import get_eyes
 def _eyes_to_arrays(eyes):
     x = []
     y = []
-    for ((face, eye1, eye2), x_pos, y_pos) in eyes:
-        x.append(eye1)
-        x.append(eye2)
-        y.append((x_pos, y_pos))
+    for ((face, eyes), x_pos, y_pos) in eyes:
+        x.append(eyes)
         y.append((x_pos, y_pos))
 
     x = np.array(x, dtype=np.float32)
-    x = np.expand_dims(x, axis=-1)
     x /= 255
     y = np.array(y, dtype=np.float32)
 
